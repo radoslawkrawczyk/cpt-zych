@@ -6,22 +6,16 @@ import cptZychBasicBullet from '../assets/gfx/cptZychBasicBullet.png';
 
 
 const gameState = {
-    playerSpeed: 200,
-
-    playerHealth: 300,
-    lastShot: 0,
-
-
-    mapMinX: 55,
-    mapMaxX: 380
 };
 
 
 class Level1Scene extends Phaser.Scene {
     constructor() {
         super({ key: 'level1scene' });
-        this.playerDiagonalSpeed = gameState.playerSpeed * (1 / 1.44);
+        this.playerSpeed = 200;
+        this.playerDiagonalSpeed = this.playerSpeed * (1 / 1.44);
         this.keyZ;
+        this.lastShot = 0;
     }
 
     preload() {
@@ -58,7 +52,7 @@ class Level1Scene extends Phaser.Scene {
             repeat: -1
         });
 
-        gameState.fireBasicSkill = () => {
+        this.fireBasicSkill = () => {
             const basicBullet = this.physics.add.image(gameState.player.x, gameState.player.y, 'cptzychBasicBullet').setScale(.3, .3);
             basicBullet.rotation = 90;
             basicBullet.setVelocityY(-500);
@@ -76,7 +70,7 @@ class Level1Scene extends Phaser.Scene {
 
     update(time) {
         if (gameState.input.left.isDown && !gameState.input.right.isDown) {
-            gameState.player.setVelocityX(-gameState.playerSpeed);
+            gameState.player.setVelocityX(-this.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x + 60;
             gameState.playerSmoke.y = gameState.player.y + 20;
             gameState.playerSmoke.rotation = 0;
@@ -85,7 +79,7 @@ class Level1Scene extends Phaser.Scene {
             gameState.playerSmoke.alpha += 0.1;
         }
         if (gameState.input.right.isDown && !gameState.input.left.isDown) {
-            gameState.player.setVelocityX(gameState.playerSpeed);
+            gameState.player.setVelocityX(this.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x - 60;
             gameState.playerSmoke.y = gameState.player.y + 10;
             gameState.playerSmoke.rotation = 0;
@@ -94,7 +88,7 @@ class Level1Scene extends Phaser.Scene {
         }
         if (gameState.input.up.isDown && !gameState.input.down.isDown) {
 
-            gameState.player.setVelocityY(-gameState.playerSpeed);
+            gameState.player.setVelocityY(-this.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x;
             gameState.playerSmoke.y = gameState.player.y + 60;
             gameState.playerSmoke.rotation = 80;
@@ -103,7 +97,7 @@ class Level1Scene extends Phaser.Scene {
         }
         if (gameState.input.down.isDown && !gameState.input.up.isDown) {
 
-            gameState.player.setVelocityY(gameState.playerSpeed);
+            gameState.player.setVelocityY(this.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x;
             gameState.playerSmoke.y = gameState.player.y - 50;
             gameState.playerSmoke.rotation = 80;
@@ -147,9 +141,9 @@ class Level1Scene extends Phaser.Scene {
 
         }
 
-        if (this.keyZ.isDown && time > gameState.lastShot) {
-            gameState.fireBasicSkill();
-            gameState.lastShot = time + 150;
+        if (this.keyZ.isDown && time > this.lastShot) {
+            this.fireBasicSkill();
+            this.lastShot = time + 150;
         }
     }
 }
