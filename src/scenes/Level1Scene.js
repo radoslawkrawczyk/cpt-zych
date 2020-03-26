@@ -7,7 +7,7 @@ import cptZychBasicBullet from '../assets/gfx/cptZychBasicBullet.png';
 
 const gameState = {
     playerSpeed: 200,
-    
+
     playerHealth: 300,
     lastShot: 0,
 
@@ -20,7 +20,7 @@ const gameState = {
 class Level1Scene extends Phaser.Scene {
     constructor() {
         super({ key: 'level1scene' });
-        this.playerDiagonalSpeed = gameState.playerSpeed * (1/1.44);
+        this.playerDiagonalSpeed = gameState.playerSpeed * (1 / 1.44);
         this.keyZ;
     }
 
@@ -32,19 +32,19 @@ class Level1Scene extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(0,0, 'background').setOrigin(0,0);
+        this.add.image(0, 0, 'background').setOrigin(0, 0);
 
         gameState.player = this.physics.add.sprite(220, 580, 'cptzych');
         gameState.player.scaleX = .5;
         gameState.player.scaleY = .5;
 
         gameState.input = this.input.keyboard.createCursorKeys();
-        this.keyZ  = this.input.keyboard.addKey('Z');
+        this.keyZ = this.input.keyboard.addKey('Z');
 
 
-        gameState.playerSmoke =  this.add.sprite(0, 0, 'cptzychSmoke').setScale(0.2, 0.2);
+        gameState.playerSmoke = this.add.sprite(0, 0, 'cptzychSmoke').setScale(0.2, 0.2);
 
-        
+
 
         gameState.playerSmoke.alpha = 0;
 
@@ -58,8 +58,8 @@ class Level1Scene extends Phaser.Scene {
             repeat: -1
         });
 
-         gameState.fireBasicSkill = () => {
-            const basicBullet = this.physics.add.image(gameState.player.x, gameState.player.y, 'cptzychBasicBullet').setScale(.3,.3);
+        gameState.fireBasicSkill = () => {
+            const basicBullet = this.physics.add.image(gameState.player.x, gameState.player.y, 'cptzychBasicBullet').setScale(.3, .3);
             basicBullet.rotation = 90;
             basicBullet.setVelocityY(-500);
             this.time.addEvent({
@@ -84,7 +84,7 @@ class Level1Scene extends Phaser.Scene {
             gameState.playerSmoke.anims.play('movingSmoke', true);
             gameState.playerSmoke.alpha += 0.1;
         }
-         if (gameState.input.right.isDown && !gameState.input.left.isDown) {
+        if (gameState.input.right.isDown && !gameState.input.left.isDown) {
             gameState.player.setVelocityX(gameState.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x - 60;
             gameState.playerSmoke.y = gameState.player.y + 10;
@@ -92,7 +92,7 @@ class Level1Scene extends Phaser.Scene {
             gameState.playerSmoke.anims.play('movingSmoke', true);
             gameState.playerSmoke.alpha += 0.1;
         }
-         if (gameState.input.up.isDown && !gameState.input.down.isDown) {
+        if (gameState.input.up.isDown && !gameState.input.down.isDown) {
 
             gameState.player.setVelocityY(-gameState.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x;
@@ -101,7 +101,7 @@ class Level1Scene extends Phaser.Scene {
             gameState.playerSmoke.anims.play('movingSmoke', true);
             gameState.playerSmoke.alpha += 0.1;
         }
-         if (gameState.input.down.isDown && !gameState.input.up.isDown) {
+        if (gameState.input.down.isDown && !gameState.input.up.isDown) {
 
             gameState.player.setVelocityY(gameState.playerSpeed);
             gameState.playerSmoke.x = gameState.player.x;
@@ -135,17 +135,19 @@ class Level1Scene extends Phaser.Scene {
         if (gameState.input.left.isUp && gameState.input.right.isUp) {
             gameState.player.setVelocityX(0);
 
-            gameState.playerSmoke.anims.stop();
             gameState.playerSmoke.alpha -= .08;
         }
         if (gameState.input.up.isUp && gameState.input.down.isUp) {
             gameState.player.setVelocityY(0);
 
-            gameState.playerSmoke.anims.stop();
             gameState.playerSmoke.alpha -= .08;
         }
+        if (gameState.input.up.isUp && gameState.input.down.isUp && gameState.input.left.isUp && gameState.input.right.isUp) {
+            gameState.playerSmoke.anims.stop();
 
-        if (this.keyZ.isDown && time > gameState.lastShot){
+        }
+
+        if (this.keyZ.isDown && time > gameState.lastShot) {
             gameState.fireBasicSkill();
             gameState.lastShot = time + 150;
         }
