@@ -6,10 +6,6 @@ import cptZychBasicBullet from '../assets/gfx/cptZychBasicBullet.png';
 import CptZych from '../objects/CptZych';
 
 
-const gameState = {
-};
-
-
 class Level1Scene extends Phaser.Scene {
     constructor() {
         super({ key: 'level1scene' });
