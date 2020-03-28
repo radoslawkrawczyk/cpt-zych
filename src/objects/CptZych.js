@@ -11,6 +11,8 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
         this.playerDiagonalSpeed = this.playerSpeed * (1 / 1.44);
         this.keyZ;
         this.lastShot = 0;
+
+        this.hp = 3;
     }
 
     create() {
@@ -49,8 +51,20 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
                 delay: 2000,
                 callbackScope: this,
                 loop: false
+            });
+            this.scene.physics.add.overlap(basicBullet,this.scene.basicEnemy, (bullet, enemy) => {
+                bullet.destroy(); 
+                enemy.hp -= 1;
+                if (enemy.hp <=0) {
+                    enemy.timer.remove();
+                    enemy.destroy();
+                    this.scene.score += 1;
+                    this.scene.scoreText.setText('Pts:'+this.scene.score)
+                }
             })
+    
         }
+
         this.player.setCollideWorldBounds(true);
     }
 
@@ -131,6 +145,11 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
         if (this.keyZ.isDown && time > this.lastShot) {
             this.fireBasicSkill();
             this.lastShot = time + 150;
+        }
+
+        if (this.player.hp < 0) {
+            alert('Pts:' + this.scene.score);
+            this.scene.stop();
         }
     }
 }

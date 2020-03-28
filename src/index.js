@@ -12,7 +12,7 @@ const config = {
         arcade: {
             gravity: { y: 0 },
             enableBody: true,
-            debug: true
+            // debug: true
 
         }
     },

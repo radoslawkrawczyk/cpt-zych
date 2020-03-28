@@ -13,18 +13,18 @@ class FirstEnemy extends BasicEnemy {
 
         this.justCreated = true;
         this.normalAnimation = true;
-        this.bullets = []
+        this.hp = 6;
     }
 
 
     create() {
         BasicEnemy.prototype.create();
-console.log(this.playerData.x);
         this.setVelocityY(50);
 
         let shootingTimer = 0;
+        this.body.setCircle(80, 27)
 
-        this.scene.time.addEvent({
+        this.timer = this.scene.time.addEvent({
             callback: () => {
                 if (shootingTimer <= 2) {
                     this.anims.play('enemyBasicNormal');
@@ -51,7 +51,6 @@ console.log(this.playerData.x);
 
 
     update(time) {
-        // console.log(this.bullets);
 
     }
 

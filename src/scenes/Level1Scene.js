@@ -17,10 +17,12 @@ class Level1Scene extends Phaser.Scene {
         this.playerDiagonalSpeed = this.playerSpeed * (1 / 1.44);
         this.keyZ;
         this.lastShot = 0;
+
+        this.score = 0;
     }
 
     preload() {
-        
+
         this.load.image('cptZych', cptZych);
         this.load.spritesheet('basicEnemy', basicEnemy, {
             frameWidth: 200, frameHeight: 165
@@ -34,7 +36,6 @@ class Level1Scene extends Phaser.Scene {
     }
 
     create() {
-        this.mouse = this.input.mousePointer;
         this.background = this.add.sprite(0, 0, 'background').setOrigin(0, 0);
         this.anims.create({
             key: 'animateBg',
@@ -45,21 +46,53 @@ class Level1Scene extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-
+        this.scoreText = this.add.text(350, 40, 'Pts:'+this.score, {fontSize: '20px', color: '000000'})
         makeAnimations(this);
         this.player = new CptZych(this, 220, 580);
         this.player.create();
         this.background.anims.play('animateBg');
-        
-        this.firstEnemy = new FirstEnemy(this, 170,50,'basicEnemy', {x: this.player.x, y: this.player.y});
-        this.firstEnemy.create();
+
+        this.worldColliderTop = this.add.rectangle(0, -20, 480, 15).setOrigin(0, 0);
+        this.worldColliderBottom = this.add.rectangle(0, 680, 460, 15).setOrigin(0, 0);
+        this.worldColliderLeft = this.add.rectangle(-20, 0, 15, 670).setOrigin(0, 0);
+        this.worldColliderRight = this.add.rectangle(480, 0, 15, 670).setOrigin(0, 0);
+
+        this.physics.add.existing(this.worldColliderBottom);
+        this.physics.add.existing(this.worldColliderTop);
+        this.physics.add.existing(this.worldColliderLeft);
+        this.physics.add.existing(this.worldColliderRight);
+
+        this.basicEnemy = this.add.group();
+
+        this.time.addEvent({
+            callback: () => {
+
+                for (let i = 0; i <= 3; i++) {
+                    let x = Phaser.Math.Between(0, 400);
+
+                    this.newEnemy = new FirstEnemy(this, x, 10, 'basicEnemy', { x: this.player.x, y: this.player.y });
+                    this.newEnemy.create();
+
+                    this.basicEnemy.add(this.newEnemy);
+                    this.physics.add.collider(this.basicEnemy, this.worldColliderBottom, (enemy, collider) => {
+                        enemy.timer.remove(); enemy.destroy(); collider.body.setVelocity(0, 0)
+                    });
+                }
+            },
+            delay: 4000,
+            callbackScope: true,
+            loop: true
+        })
 
     }
 
     update(time) {
         this.player.update(time);
-        this.firstEnemy.update(time);
+        // this.basicEnemy.children.iterate(function (child) {
 
+        //     console.log(child.hp)
+
+        // });
     }
 }
 
