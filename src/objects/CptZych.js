@@ -24,7 +24,7 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
 
         this.playerSmoke = this.scene.add.sprite(0, 0, 'cptzychSmoke').setScale(0.2, 0.2);
 
-
+        this.player.body.setCircle(60, 40, 30);
 
         this.playerSmoke.alpha = 0;
 
