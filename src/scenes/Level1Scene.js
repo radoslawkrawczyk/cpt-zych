@@ -46,7 +46,7 @@ class Level1Scene extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         });
-        this.scoreText = this.add.text(350, 40, 'Pts:'+this.score, {fontSize: '20px', color: '000000'})
+        this.scoreText = this.add.text(350, 40, 'Pts:' + this.score, { fontSize: '20px', color: '000000' })
         makeAnimations(this);
         this.player = new CptZych(this, 220, 580);
         this.player.create();
@@ -67,16 +67,26 @@ class Level1Scene extends Phaser.Scene {
         this.time.addEvent({
             callback: () => {
 
-                for (let i = 0; i <= 3; i++) {
-                    let x = Phaser.Math.Between(0, 400);
+                let xArray = [
+                    55,
+                    140,
+                    230,
+                    320,
+                    410
+                ];
+                const howManyEnemies = Phaser.Math.Between(0,4);
 
-                    this.newEnemy = new FirstEnemy(this, x, 10, 'basicEnemy', { x: this.player.x, y: this.player.y });
+                for (let i = 0; i <= howManyEnemies; i++) {
+                    let x = Phaser.Math.Between(0, xArray.length - 1);
+                    this.newEnemy = new FirstEnemy(this, xArray[x], 10, 'basicEnemy', { x: this.player.x, y: this.player.y });
                     this.newEnemy.create();
 
                     this.basicEnemy.add(this.newEnemy);
                     this.physics.add.collider(this.basicEnemy, this.worldColliderBottom, (enemy, collider) => {
                         enemy.timer.remove(); enemy.destroy(); collider.body.setVelocity(0, 0)
                     });
+
+                    xArray.splice(x, 1);
                 }
             },
             delay: 4000,

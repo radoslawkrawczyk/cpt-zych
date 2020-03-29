@@ -8,6 +8,7 @@ class BasicEnemy extends Phaser.Physics.Arcade.Sprite {
 
         this.hp = 25;
         this.lastShot = 0;
+
     }
     create() {
         this.scaleX = .5;

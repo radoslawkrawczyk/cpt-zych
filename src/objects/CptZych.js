@@ -13,6 +13,9 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
         this.lastShot = 0;
 
         this.hp = 3;
+
+        this.damageMin = 10;
+        this.damageMax = 15;
     }
 
     create() {
@@ -26,7 +29,7 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
 
         this.playerSmoke = this.scene.add.sprite(0, 0, 'cptzychSmoke').setScale(0.2, 0.2);
 
-        this.player.body.setCircle(60, 40, 30);
+        this.player.body.setCircle(35, 70, 80);
 
         this.playerSmoke.alpha = 0;
 
@@ -54,7 +57,7 @@ class CptZych extends Phaser.Physics.Arcade.Sprite {
             });
             this.scene.physics.add.overlap(basicBullet,this.scene.basicEnemy, (bullet, enemy) => {
                 bullet.destroy(); 
-                enemy.hp -= 1;
+                enemy.hp -= Phaser.Math.Between(this.damageMin, this.damageMax);
                 if (enemy.hp <=0) {
                     enemy.timer.remove();
                     enemy.destroy();

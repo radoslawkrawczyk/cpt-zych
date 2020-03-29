@@ -13,12 +13,12 @@ class FirstEnemy extends BasicEnemy {
 
         this.justCreated = true;
         this.normalAnimation = true;
-        this.hp = 6;
+        this.hp = 65;
     }
 
 
     create() {
-        BasicEnemy.prototype.create();
+        super.create();
         this.setVelocityY(50);
 
         let shootingTimer = 0;
@@ -26,11 +26,11 @@ class FirstEnemy extends BasicEnemy {
 
         this.timer = this.scene.time.addEvent({
             callback: () => {
-                if (shootingTimer <= 2) {
+                if (shootingTimer <= 1) {
                     this.anims.play('enemyBasicNormal');
 
                 }
-                if (shootingTimer > 2 && shootingTimer <= 6) {
+                if (shootingTimer > 1 && shootingTimer <= 5) {
                     this.anims.play('enemyBasicShooting');
                     const bullet = (new BasicEnemyBullet(this.scene, this.x, this.y, 'basicEnemyBullet'))
                     bullet.create();
@@ -38,7 +38,7 @@ class FirstEnemy extends BasicEnemy {
                 }
 
                 shootingTimer++;
-                if (shootingTimer > 6) {
+                if (shootingTimer > 5) {
                     shootingTimer = 0;
                 }
 
