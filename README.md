@@ -4,7 +4,7 @@
 
 ## Description
 A simple shooter build on Phaser.js 3.
-The game preview is available on [itch.io](https://rkrawczyk.itch.io/kapitan-zych-touhou-20)
+The game preview is available on [itch.io](https://rkrawczyk.itch.io/kapitan-zych-touhou-20?secret=xcmhiNOxv4H72R0oVBKVlMxC73Q)
 
 ## Requirements
 
